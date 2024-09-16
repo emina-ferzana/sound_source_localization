@@ -1,5 +1,5 @@
 function [estimated_src_locations, rmse] = tdoa_based_localization(loc_source_init, ...
-    loc_source_gt, timestamp_dir)
+    loc_source_gt, audio_dir)
     % okvir 1
     mic_1 = [0.015,0,0]; % horizontalni stereo par
     mic_2 = [1.01,0,0];
@@ -41,7 +41,8 @@ function [estimated_src_locations, rmse] = tdoa_based_localization(loc_source_in
     % Input file 
     %timestamp_dir = '20240805145919';
     fprintf("Calculating the delay matrices via GCC-PHAT...\n");
-    delay_matrices = ssl_clap_automated_experiment_gcc_phat_more_mics(timestamp_dir);
+    base_dir = fullfile('~',audio_dir);
+    delay_matrices = ssl_clap_automated_experiment_gcc_phat_more_mics(base_dir);
     
     
     % Optimization parameters

@@ -1,6 +1,7 @@
-function delay_matrices = ssl_clap_automated_experiment_gcc_phat_more_mics(timestamp_folder)
+function delay_matrices = ssl_clap_automated_experiment_gcc_phat_more_mics(audio_dir)
     % Define base directory and parameters
-    base_dir = fullfile('/home/eminaf/experiment_data', timestamp_folder);
+    %base_dir = fullfile('/home/eminaf/experiment_data', timestamp_folder);
+    base_dir = fullfile('~', audio_dir);
     mic_dirs = dir(fullfile(base_dir, 'mic_*'));
     channels = {'left_channel', 'right_channel'};
     channels_add = {'left_channel', 'right_channel', 'channel3_channel', 'channel4_channel'};

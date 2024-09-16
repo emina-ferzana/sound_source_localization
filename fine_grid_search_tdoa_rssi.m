@@ -1,4 +1,4 @@
-function fine_grid_search_tdoa_rssi(timestamp_dir)
+function fine_grid_search_tdoa_rssi(files_dir)
     % Preparing the variables
 
     % initialize the room as a grid
@@ -76,13 +76,17 @@ function fine_grid_search_tdoa_rssi(timestamp_dir)
     mics_lower = [Mic2, Mic4, Mic6, Mic8];
     ceiling = [mic_17; mic_18; mic_19; mic_20];
 
-    output_dir = fullfile('loss_func_output', timestamp_dir);
+
+    base_dir= fullfile('~', files_dir);
+    parts = split( base_dir, '/');
+    last_part_dir = parts{end};
+    output_dir = fullfile('loss_func_output', last_part_dir);
     if ~exist(output_dir, 'dir')
         mkdir(output_dir);
     end
-    audio_dir = fullfile('/home/eminaf/experiment_data', timestamp_dir);
+
     % TDOA part
-    delay_matrices = ssl_clap_automated_experiment_gcc_phat_more_mics(timestamp_dir);
+    delay_matrices = ssl_clap_automated_experiment_gcc_phat_more_mics(base_dir);
     channels_add = {'left_channel', 'right_channel', 'channel3_channel', 'channel4_channel'};
 
     
@@ -119,7 +123,7 @@ function fine_grid_search_tdoa_rssi(timestamp_dir)
         
         for ceil_idx = 1:length(ceiling)
             power_ceiling = extract_transient_and_calculate_power_ceiling_mic...
-                (audio_dir, channels_add{ceil_idx}, idx_file);
+                (base_dir, channels_add{ceil_idx}, idx_file);
             % we will combine each ceiling mic with every other mic from the
             % frames 
     
@@ -130,17 +134,17 @@ function fine_grid_search_tdoa_rssi(timestamp_dir)
                 idx_mic_vert_i = 2 * i; % calculate the microphone index for
                 % vertical pairs (mics_lower)
                 
-                [power_left_i, power_right_i] = extract_transient_and_calculate_power(audio_dir, idx_mic_i, idx_file);
-                [power_left_vert_i, power_right_vert_i] = extract_transient_and_calculate_power(audio_dir, idx_mic_vert_i, idx_file);
+                [power_left_i, power_right_i] = extract_transient_and_calculate_power(base_dir, idx_mic_i, idx_file);
+                [power_left_vert_i, power_right_vert_i] = extract_transient_and_calculate_power(base_dir, idx_mic_vert_i, idx_file);
                
                 for j = i+1:length(mics_upper)      
                     % Read the files for Mic j 
                     idx_mic_j = (j - 1) * 2 + 1;
-                    [power_left_j, power_right_j] = extract_transient_and_calculate_power(audio_dir, idx_mic_j, idx_file);            
+                    [power_left_j, power_right_j] = extract_transient_and_calculate_power(base_dir, idx_mic_j, idx_file);            
                     
                     % Do that for the vertical pairs (mics_lower)
                     idx_mic_vert_j = j * 2;
-                    [power_left_vert_j, power_right_vert_j] = extract_transient_and_calculate_power(audio_dir, idx_mic_vert_j, idx_file);
+                    [power_left_vert_j, power_right_vert_j] = extract_transient_and_calculate_power(base_dir, idx_mic_vert_j, idx_file);
                  
                     % Combine all relevant pairs and calculate ratios
                     ratios = [

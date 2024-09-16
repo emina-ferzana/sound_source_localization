@@ -2,17 +2,17 @@ function filtered_times_of_transients = transient_detector_func(y, Fs)
 
     % adjustable parameters
     time_interval = 0.04; % 40 ms
-    no_samples = time_interval * Fs; % or time_interval/dt
+    no_samples = time_interval * Fs; 
     no_samples = closestPowerOfTwo(no_samples);
     overlap_precentage = 0.75;
     overlap_samples = overlap_precentage * no_samples;
-    N_bins = 7; % prej je bilo 5
+    N_bins = 7; 
     % over how many spectogram bins we will smooth the functions
-    N_timeframes = 5; %5 najde vse dogodke
+    N_timeframes = 5; 
     % how many time frames are considered for the threshold calculation
-    beta = 2.9; %eksp brez hrupa: 2.5;%3.2-pleski, tloski, snaps; 1.8-urbansound8k;2.55-profesorjev file,2.9-aoa testi v pisarni 10 newcalps in to
+    beta = 2.5; %eksp s hrupom: 2.9;%3.2-pleski, tloski, snaps; 
     % controls the strength of transients to be detected
-    lamba_threshold = no_samples/6;% /4 prej 
+    lamba_threshold = no_samples/6;
     window = blackmanharris(no_samples, 'periodic');
     
     % stft calculation

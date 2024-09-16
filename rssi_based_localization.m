@@ -1,6 +1,6 @@
 function [rssi_loc_estimates, rmse] = ...
                     rssi_based_localization(loc_source_init, loc_source_gt, ...
-                                            timestamp_dir)
+                                            audio_dir)
 
     % okvir 1
     mic_1 = [0.015,0,0]; % horizontalni stereo par
@@ -62,8 +62,9 @@ function [rssi_loc_estimates, rmse] = ...
     mics_lower = [Mic2, Mic4, Mic6, Mic8];
     ceiling = [mic_17; mic_18; mic_19; mic_20];
     
-    audio_dir = fullfile('/home/eminaf/experiment_data', timestamp_dir);
-    files = dir(fullfile(audio_dir, 'mic_0','left_channel','*.wav')); 
+    %audio_dir = fullfile('/home/eminaf/experiment_data', timestamp_dir);
+    files = dir(fullfile('~', audio_dir, 'mic_0','left_channel','*.wav')); 
+    base_dir = fullfile('~',audio_dir);
     %get number of files/sounds 
     rssi_loc_estimates = zeros(length(files), 3);
     
@@ -81,7 +82,7 @@ function [rssi_loc_estimates, rmse] = ...
     for i = 1:length(files)
     
         [loc_source_est, residuals] = gauss_newton_localization_rssi(mics_upper,...
-            mics_lower, ceiling, i, audio_dir, loc_source_init, max_iter, tol);
+            mics_lower, ceiling, i, base_dir, loc_source_init, max_iter, tol);
         rssi_loc_estimates(i,:) = loc_source_est;
         
         hold on;

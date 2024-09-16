@@ -1,8 +1,9 @@
 function [horizontal_angle_estimations,vertical_angle_estimations, ...
     mean_values_vertical, std_values_vertical,...
-    mean_values_horizontal, std_values_horizontal] = ssl_clap_automated_experiment_aoa(timestamp_folder)
+    mean_values_horizontal, std_values_horizontal] = ssl_clap_automated_experiment_aoa(audio_dir)
     % Define base directory and mic pairs
-    base_dir = fullfile('/home/eminaf/experiment_data', timestamp_folder);
+    %base_dir = fullfile('/home/eminaf/experiment_data', timestamp_folder);
+    base_dir = fullfile('~', audio_dir);
     mic_pairs = {
         'mic_1', 'mic_1';
         'mic_2', 'mic_2';
