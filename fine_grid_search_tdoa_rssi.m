@@ -83,6 +83,8 @@ function fine_grid_search_tdoa_rssi(files_dir)
     output_dir = fullfile('loss_func_output', last_part_dir);
     if ~exist(output_dir, 'dir')
         mkdir(output_dir);
+    else 
+        fprintf("Grid evaluation already done. Skipping the calculation"); 
     end
 
     % TDOA part
